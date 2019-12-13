@@ -8,12 +8,11 @@ public class Video {
     public Video() {
     }
 
-    public Video(String nombre, String comentarios, String subtitulos, int likes, int dislikes, int duracion) {
+    public Video(String nombre, String subtitulos, int duracion) {
         this.nombre = nombre;
-        this.comentarios = comentarios;
         this.subtitulos = subtitulos;
-        this.likes = likes;
-        this.dislikes = dislikes;
+        this.likes = 0;
+        this.dislikes = 0;
         this.duracion = duracion;
     }
 

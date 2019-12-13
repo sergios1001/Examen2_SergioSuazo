@@ -11,11 +11,9 @@ public class Canales {
     public Canales() {
     }
 
-    public Canales(String nombre, String categoria, int suscriptores, int videos) {
+    public Canales(String nombre, String categoria) {
         this.nombre = nombre;
         this.categoria = categoria;
-        this.suscriptores = suscriptores;
-        this.videos = videos;
     }
 
 
@@ -54,7 +52,7 @@ public class Canales {
 
     @Override
     public String toString() {
-        return  nombre;
+        return  nombre + " "+ categoria;
     }
     
 }

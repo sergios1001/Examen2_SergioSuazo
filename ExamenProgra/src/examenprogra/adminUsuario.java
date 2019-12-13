@@ -22,8 +22,8 @@ public class adminUsuario {
         return listaUsuarios;
     }
 
-    public void setListaPersonas(ArrayList<Usuario> listaAlumnos) {
-        this.listaUsuarios = listaAlumnos;
+    public void setListaPersonas(ArrayList<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
     }
 
     public File getArchivo() {

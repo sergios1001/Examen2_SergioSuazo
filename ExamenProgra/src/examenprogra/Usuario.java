@@ -9,19 +9,21 @@ public class Usuario implements Serializable{
    private int edad;
    private Canales micanal;
    private ArrayList<Canales> canales=new ArrayList<>();
-   private ArrayList<Playlist> playlist=new ArrayList<>();
+   private ArrayList<Video> misvideos=new ArrayList<>();
+   private Playlist playlist;
+   private static final long SerialVersionUID=555L;
 
    
    public Usuario() {
    }
 
-    public Usuario(String nombre, String correo, String usuario, String contraseña, int edad, Canales micanal) {
+    public Usuario(String nombre, String correo, String usuario, String contraseña, int edad) {
         this.nombre = nombre;
         this.correo = correo;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.edad = edad;
-        this.micanal = micanal;
+
     }
     
     public String getNombre() {
@@ -71,14 +73,6 @@ public class Usuario implements Serializable{
         this.canales = canales;
     }
 
-    public ArrayList<Playlist> getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(ArrayList<Playlist> playlist) {
-        this.playlist = playlist;
-    }
-
     public Canales getMicanal() {
         return micanal;
     }
@@ -86,7 +80,22 @@ public class Usuario implements Serializable{
     public void setMicanal(Canales micanal) {
         this.micanal = micanal;
     }
-   
-   
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
+
+    public ArrayList<Video> getMisvideos() {
+        return misvideos;
+    }
+
+    public void setMisvideos(ArrayList<Video> misvideos) {
+        this.misvideos = misvideos;
+    }
+    
    
 }
