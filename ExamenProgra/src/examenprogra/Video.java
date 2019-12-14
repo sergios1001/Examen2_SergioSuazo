@@ -1,9 +1,13 @@
 
 package examenprogra;
 
-public class Video {
+import java.io.Serializable;
+
+public class Video implements Serializable{
     private String nombre,comentarios,subtitulos;
     private int likes,dislikes,duracion;
+    
+    private static final long SerialVersionUID=555L;
 
     public Video() {
     }

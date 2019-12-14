@@ -3,6 +3,9 @@ package examenprogra;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class YouLeoTube extends javax.swing.JFrame {
 
@@ -58,7 +61,7 @@ public class YouLeoTube extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jt_playlist = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -245,18 +248,13 @@ public class YouLeoTube extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Mi Canal", jPanel1);
 
-        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel2MouseClicked(evt);
-            }
-        });
-
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorias");
         tree_suscripciones.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane2.setViewportView(tree_suscripciones);
 
         jLabel14.setText("Mis suscripciones:");
 
+        jl_Canales.setModel(new DefaultListModel());
         jScrollPane5.setViewportView(jl_Canales);
 
         jLabel18.setText("Todos los Canales");
@@ -265,6 +263,11 @@ public class YouLeoTube extends javax.swing.JFrame {
         jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton6MouseClicked(evt);
+            }
+        });
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -307,7 +310,7 @@ public class YouLeoTube extends javax.swing.JFrame {
 
         jLabel15.setText("Videos Favoritos");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jt_playlist.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -323,7 +326,7 @@ public class YouLeoTube extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(jt_playlist);
 
         jButton5.setText("Play");
 
@@ -539,7 +542,7 @@ public class YouLeoTube extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         Usuario u=new Usuario(tf_nombreUser.getText(), tf_correo.getText(), tf_user.getText(), tf_contraUser.getText(), (Integer)js_edad.getValue());
-        Canales n=new Canales(tf_nombreCanal.getText(), (String)cb_categoria.getSelectedItem());
+        Canales n=new Canales(tf_nombreCanal.getText(), cb_categoria.getSelectedItem().toString());
         u.setMicanal(n);
         adminUsuario au=new adminUsuario("./usuarios.cbm");
         au.cargarArchivo();
@@ -570,11 +573,50 @@ public class YouLeoTube extends javax.swing.JFrame {
                 login=true;
                 JOptionPane.showMessageDialog(this, "Bienvenido "+user);
                 Interfaz.setVisible(login);
+                Interfaz.pack();
                 user_actual=au.getListaPersonas().get(i);
                 break;
             }
         }
-        if(login=false)
+        if(login)
+        {
+            //System.out.println("login");
+            DefaultListModel m=(DefaultListModel)jl_Canales.getModel();
+            {
+            for (int i = 0; i < au.getListaPersonas().size(); i++) {
+                //System.out.println("primer for");
+                
+                for (int j = 0; j <= user_actual.getCanales().size(); j++) {
+                    //System.out.println("aqui");
+                    if(user_actual.getCanales().size()==0)
+                    {
+                        m.addElement(au.getListaPersonas().get(i).getMicanal());
+                    }
+                    else if(!(user_actual.getCanales().get(j).equals(au.getListaPersonas().get(i).getMicanal())))
+                    {
+                        //System.out.println("si entra");
+                        m.addElement(au.getListaPersonas().get(i).getMicanal());
+                    }
+                }
+            }
+            jl_Canales.setModel(m);
+            }
+            if(user_actual.getModeloArbol()!=null)
+            {
+                tree_suscripciones.setModel(user_actual.getModeloArbol());
+            }
+            if(user_actual.getVideos()!=null)
+            {
+                jt_misvideos.setModel(user_actual.getVideos());
+            }
+            if(user_actual.getMiplaylist()!=null)
+            {
+                jt_playlist.setModel(user_actual.getMiplaylist());
+            }
+            tf_usuario.setText("");
+            pf_contra.setText("");
+        }
+        else
         {
             JOptionPane.showMessageDialog(this, "Usuario o contrasena equivocada");
         }
@@ -584,23 +626,13 @@ public class YouLeoTube extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         login=false;
+        JOptionPane.showMessageDialog(this, "Se cerro la sesion");
         Interfaz.setVisible(false);
+//        adminUsuario au=new adminUsuario("./usuarios.cbm");
+//        au.escribirArchivo();
+        user_actual=null;
+        jl_Canales.removeAll();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
-        // TODO add your handling code here:
-        adminUsuario au=new adminUsuario("./usuarios.cbm");
-        au.cargarArchivo();
-        DefaultListModel m=(DefaultListModel)jl_Canales.getModel();
-        for (int i = 0; i < au.getListaPersonas().size(); i++) {
-            for (int j = i; j < au.getListaPersonas().size(); j++) {
-                if(user_actual.getCanales().get(j)!=au.getListaPersonas().get(i).getMicanal())
-                {
-                    m.addElement(au.getListaPersonas().get(i).getMicanal());
-                }
-            }
-        }
-    }//GEN-LAST:event_jPanel2MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
@@ -613,19 +645,74 @@ public class YouLeoTube extends javax.swing.JFrame {
         Video v=new Video(tf_titulo.getText(), ta_subtitulos.getText(), (Integer)js_duracion.getValue());
         user_actual.getMisvideos().add(v);
         JOptionPane.showMessageDialog(this, "Se creo el video exitosamente");
+        DefaultTableModel modeloTabla= (DefaultTableModel)jt_misvideos.getModel();
+            Object[] newrow= {
+                tf_titulo.getText(), 
+                (Integer)js_duracion.getValue()
+            };
+            modeloTabla.addRow(newrow);
+            jt_misvideos.setModel(modeloTabla);
+            user_actual.setVideos(modeloTabla);
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
         if(jl_Canales.getSelectedIndex()>=0)
         {
+            DefaultTreeModel modeloArbol = (DefaultTreeModel)tree_suscripciones.getModel();
+            DefaultMutableTreeNode raiz= (DefaultMutableTreeNode) modeloArbol.getRoot();
+            DefaultListModel modeloLista = (DefaultListModel) jl_Canales.getModel();
+            String categoria;
+            Canales nombre;
+            Video video;
             
+            categoria= ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getCategoria() ;
+            nombre= (Canales)modeloLista.get(jl_Canales.getSelectedIndex());
+                    
+            int centinela=-1;
+            boolean flag=true;
+            for (int i = 0; i < raiz.getChildCount(); i++) 
+            {
+                if(raiz.getChildAt(i).toString().equals(categoria))
+                {
+                    DefaultMutableTreeNode p = new DefaultMutableTreeNode(nombre);
+                    ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                    for (int j = 0; j < ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().size(); j++) 
+                        {
+                            video= ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().get(j);
+                            DefaultMutableTreeNode v = new DefaultMutableTreeNode(video);
+                            ((DefaultMutableTreeNode) raiz.getChildAt(i).getChildAt(j)).add(v);
+                        }
+                    centinela=1;                       
+                }
+            }
+            if(centinela==-1)
+            {
+                DefaultMutableTreeNode n = new DefaultMutableTreeNode(categoria);
+                DefaultMutableTreeNode p = new DefaultMutableTreeNode(nombre);
+                for (int j = 0; j < ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().size(); j++) 
+                        {
+                            video= ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().get(j);
+                            DefaultMutableTreeNode v = new DefaultMutableTreeNode(video);
+                            p.add(v);
+                        }
+                n.add(p);
+                raiz.add(n);
+            }
+            modeloArbol.reload();
+            user_actual.setModeloArbol(modeloArbol);
+            modeloLista.remove(jl_Canales.getSelectedIndex());
+            jl_Canales.setModel(modeloLista);
         }
         else
         {
             JOptionPane.showMessageDialog(this, "No se selecciono un canal para suscribirse");
         }
     }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -706,11 +793,11 @@ public class YouLeoTube extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JList<String> jl_Canales;
     private javax.swing.JSpinner js_duracion;
     private javax.swing.JSpinner js_edad;
     private javax.swing.JTable jt_misvideos;
+    private javax.swing.JTable jt_playlist;
     private javax.swing.JPasswordField pf_contra;
     private javax.swing.JTextArea ta_subtitulos;
     private javax.swing.JTextField tf_contraUser;

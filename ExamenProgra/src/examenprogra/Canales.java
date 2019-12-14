@@ -1,12 +1,15 @@
 
 package examenprogra;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Canales {
+public class Canales implements Serializable{
     private String nombre, categoria;
     private int suscriptores,videos;
     private ArrayList<Video> misvideos=new ArrayList<>();
+    
+    private static final long SerialVersionUID=555L;
 
     public Canales() {
     }
@@ -48,6 +51,15 @@ public class Canales {
     public void setVideos(int videos) {
         this.videos = videos;
     }
+
+    public ArrayList<Video> getMisvideos() {
+        return misvideos;
+    }
+
+    public void setMisvideos(ArrayList<Video> misvideos) {
+        this.misvideos = misvideos;
+    }
+    
 
 
     @Override

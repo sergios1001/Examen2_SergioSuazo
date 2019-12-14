@@ -3,6 +3,9 @@ package examenprogra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultTreeModel;
 
 public class Usuario implements Serializable{
    private String nombre,correo,usuario,contraseña;
@@ -11,6 +14,10 @@ public class Usuario implements Serializable{
    private ArrayList<Canales> canales=new ArrayList<>();
    private ArrayList<Video> misvideos=new ArrayList<>();
    private Playlist playlist;
+   private DefaultTreeModel modeloArbol;
+   private DefaultTableModel videos;
+   private DefaultTableModel miplaylist;
+   
    private static final long SerialVersionUID=555L;
 
    
@@ -23,6 +30,8 @@ public class Usuario implements Serializable{
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.edad = edad;
+        this.videos=null;
+        this.miplaylist=null;
 
     }
     
@@ -96,6 +105,31 @@ public class Usuario implements Serializable{
     public void setMisvideos(ArrayList<Video> misvideos) {
         this.misvideos = misvideos;
     }
+
+    public DefaultTreeModel getModeloArbol() {
+        return modeloArbol;
+    }
+
+    public void setModeloArbol(DefaultTreeModel modeloArbol) {
+        this.modeloArbol = modeloArbol;
+    }
+
+    public DefaultTableModel getVideos() {
+        return videos;
+    }
+
+    public void setVideos(DefaultTableModel videos) {
+        this.videos = videos;
+    }
+
+    public DefaultTableModel getMiplaylist() {
+        return miplaylist;
+    }
+
+    public void setMiplaylist(DefaultTableModel miplaylist) {
+        this.miplaylist = miplaylist;
+    }
+    
     
    
 }
