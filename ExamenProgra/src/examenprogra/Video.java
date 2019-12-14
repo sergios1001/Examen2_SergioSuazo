@@ -70,7 +70,7 @@ public class Video implements Serializable{
 
     @Override
     public String toString() {
-        return "Video{" + "nombre=" + nombre + '}';
+        return  nombre ;
     }
     
     

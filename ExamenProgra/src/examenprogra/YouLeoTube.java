@@ -1,6 +1,7 @@
 
 package examenprogra;
 
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -329,6 +330,11 @@ public class YouLeoTube extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jt_playlist);
 
         jButton5.setText("Play");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -546,6 +552,7 @@ public class YouLeoTube extends javax.swing.JFrame {
         u.setMicanal(n);
         adminUsuario au=new adminUsuario("./usuarios.cbm");
         au.cargarArchivo();
+        usuarios.add(u);
         au.setUsuario(u);
         au.escribirArchivo();
         JOptionPane.showMessageDialog(this, "El Usuario se creo exitosamente");
@@ -575,6 +582,8 @@ public class YouLeoTube extends javax.swing.JFrame {
                 Interfaz.setVisible(login);
                 Interfaz.pack();
                 user_actual=au.getListaPersonas().get(i);
+                usuarios=au.getListaPersonas();
+                pos=i;
                 break;
             }
         }
@@ -628,8 +637,9 @@ public class YouLeoTube extends javax.swing.JFrame {
         login=false;
         JOptionPane.showMessageDialog(this, "Se cerro la sesion");
         Interfaz.setVisible(false);
-//        adminUsuario au=new adminUsuario("./usuarios.cbm");
-//        au.escribirArchivo();
+        adminUsuario au=new adminUsuario("./usuarios.cbm");
+        au.setListaPersonas(usuarios);
+        au.escribirArchivo();
         user_actual=null;
         jl_Canales.removeAll();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -670,19 +680,19 @@ public class YouLeoTube extends javax.swing.JFrame {
             nombre= (Canales)modeloLista.get(jl_Canales.getSelectedIndex());
                     
             int centinela=-1;
-            boolean flag=true;
             for (int i = 0; i < raiz.getChildCount(); i++) 
             {
                 if(raiz.getChildAt(i).toString().equals(categoria))
                 {
                     DefaultMutableTreeNode p = new DefaultMutableTreeNode(nombre);
-                    ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                    
                     for (int j = 0; j < ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().size(); j++) 
                         {
-                            video= ((Canales)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().get(j);
+                            video= ((Usuario)modeloLista.get(jl_Canales.getSelectedIndex())).getMisvideos().get(j);
                             DefaultMutableTreeNode v = new DefaultMutableTreeNode(video);
-                            ((DefaultMutableTreeNode) raiz.getChildAt(i).getChildAt(j)).add(v);
+                            p.add(v);
                         }
+                    ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
                     centinela=1;                       
                 }
             }
@@ -713,6 +723,14 @@ public class YouLeoTube extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+        if(jt_playlist.getSelectedRow()>0)
+        {
+            
+        }
+    }//GEN-LAST:event_jButton5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -811,4 +829,6 @@ public class YouLeoTube extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     static boolean login;
     static Usuario user_actual;
+    static ArrayList<Usuario> usuarios=new ArrayList<>();
+    static int pos;
 }

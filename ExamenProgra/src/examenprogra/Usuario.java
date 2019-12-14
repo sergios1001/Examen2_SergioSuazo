@@ -15,8 +15,8 @@ public class Usuario implements Serializable{
    private ArrayList<Video> misvideos=new ArrayList<>();
    private Playlist playlist;
    private DefaultTreeModel modeloArbol;
-   private DefaultTableModel videos;
-   private DefaultTableModel miplaylist;
+   private DefaultTableModel videos=null;
+   private DefaultTableModel miplaylist=null;
    
    private static final long SerialVersionUID=555L;
 
@@ -30,9 +30,6 @@ public class Usuario implements Serializable{
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.edad = edad;
-        this.videos=null;
-        this.miplaylist=null;
-
     }
     
     public String getNombre() {

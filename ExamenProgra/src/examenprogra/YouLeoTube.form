@@ -537,6 +537,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Play"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton5MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
