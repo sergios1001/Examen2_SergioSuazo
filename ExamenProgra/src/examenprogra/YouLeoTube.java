@@ -76,6 +76,15 @@ public class YouLeoTube extends javax.swing.JFrame {
         ta_subtitulos = new javax.swing.JTextArea();
         jLabel20 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        VerVideo = new javax.swing.JDialog();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -251,6 +260,11 @@ public class YouLeoTube extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Categorias");
         tree_suscripciones.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        tree_suscripciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tree_suscripcionesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tree_suscripciones);
 
         jLabel14.setText("Mis suscripciones:");
@@ -461,6 +475,62 @@ public class YouLeoTube extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
+        jMenuItem3.setText("Ver Video");
+        jPopupMenu2.add(jMenuItem3);
+
+        jButton8.setText("Comentar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Like");
+
+        jButton10.setText("Dislike");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane6.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout VerVideoLayout = new javax.swing.GroupLayout(VerVideo.getContentPane());
+        VerVideo.getContentPane().setLayout(VerVideoLayout);
+        VerVideoLayout.setHorizontalGroup(
+            VerVideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VerVideoLayout.createSequentialGroup()
+                .addGroup(VerVideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VerVideoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VerVideoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton9)
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton10)))
+                .addContainerGap())
+            .addGroup(VerVideoLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(VerVideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton8)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        VerVideoLayout.setVerticalGroup(
+            VerVideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VerVideoLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(VerVideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(jButton10))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton8)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Log In");
@@ -650,21 +720,6 @@ public class YouLeoTube extends javax.swing.JFrame {
         NuevoVideo.pack();
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // TODO add your handling code here:
-        Video v=new Video(tf_titulo.getText(), ta_subtitulos.getText(), (Integer)js_duracion.getValue());
-        user_actual.getMisvideos().add(v);
-        JOptionPane.showMessageDialog(this, "Se creo el video exitosamente");
-        DefaultTableModel modeloTabla= (DefaultTableModel)jt_misvideos.getModel();
-            Object[] newrow= {
-                tf_titulo.getText(), 
-                (Integer)js_duracion.getValue()
-            };
-            modeloTabla.addRow(newrow);
-            jt_misvideos.setModel(modeloTabla);
-            user_actual.setVideos(modeloTabla);
-    }//GEN-LAST:event_jButton7MouseClicked
-
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
         if(jl_Canales.getSelectedIndex()>=0)
@@ -732,6 +787,40 @@ public class YouLeoTube extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5MouseClicked
 
+    private void tree_suscripcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tree_suscripcionesMouseClicked
+        // TODO add your handling code here:
+        DefaultTreeModel modeloArbol = (DefaultTreeModel)tree_suscripciones.getModel();
+        if(evt.isMetaDown())
+        {
+            jPopupMenu2.setVisible(true);
+        }
+        try{
+            referencia=(DefaultMutableTreeNode) tree_suscripciones.getSelectionPath().getPathComponent(WIDTH);
+        }
+        catch(Exception E)
+        {
+        }
+    }//GEN-LAST:event_tree_suscripcionesMouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        // TODO add your handling code here:
+        Video v=new Video(tf_titulo.getText(), ta_subtitulos.getText(), (Integer)js_duracion.getValue());
+        user_actual.getMisvideos().add(v);
+        JOptionPane.showMessageDialog(this, "Se creo el video exitosamente");
+        DefaultTableModel modeloTabla= (DefaultTableModel)jt_misvideos.getModel();
+        Object[] newrow= {
+            tf_titulo.getText(),
+            (Integer)js_duracion.getValue()
+        };
+        modeloTabla.addRow(newrow);
+        jt_misvideos.setModel(modeloTabla);
+        user_actual.setVideos(modeloTabla);
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -771,14 +860,18 @@ public class YouLeoTube extends javax.swing.JFrame {
     private javax.swing.JDialog Interfaz;
     private javax.swing.JDialog NuevoUsuario;
     private javax.swing.JDialog NuevoVideo;
+    private javax.swing.JDialog VerVideo;
     private javax.swing.JComboBox<String> cb_categoria;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -802,15 +895,20 @@ public class YouLeoTube extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JList<String> jl_Canales;
     private javax.swing.JSpinner js_duracion;
     private javax.swing.JSpinner js_edad;
@@ -831,4 +929,5 @@ public class YouLeoTube extends javax.swing.JFrame {
     static Usuario user_actual;
     static ArrayList<Usuario> usuarios=new ArrayList<>();
     static int pos;
+    DefaultMutableTreeNode referencia;
 }
